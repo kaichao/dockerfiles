@@ -14,11 +14,9 @@ make build
 docker save fast/heimdall | gzip | pv | ssh gl16 'gzip -d | docker load'
 ```
 
-
 ## Data preparation
-1. Initialize directory /data using ROOT/app/sbin/dir-init.sh, and put input data into /data/input
-
-2. put your analysis script into $BASE_DIR/bin
+1. Initialize directory /data using ROOT/app/sbin/dir-init.sh, and put input data into /data/input;
+2. put your analysis script into $BASE_DIR/bin 
 
 ## Multi-node job queue based on socket
 1. start sock server, put all the files to be processed in the queue(add N*M EOFs)
@@ -26,7 +24,6 @@ docker save fast/heimdall | gzip | pv | ssh gl16 'gzip -d | docker load'
 cd $$BASE_DIR/sock-server && make build && ./sock-server -f ../data/all.list
 ```
 2. Start N containers on each node, ready to process data files
-
 ```
 cd $$BASE_DIR && make run-sock
 ```
@@ -40,7 +37,6 @@ cd $$BASE_DIR && make run-fifo
 ```sh
 cat files.list | while read line; do echo $line >> $BASE_DIR/data/run/fifo; done
 ```
-
 
 ## References
 * [Simple job queue in Bash using a FIFO](https://blog.garage-coding.com/2016/02/05/bash-fifo-jobqueue.html)

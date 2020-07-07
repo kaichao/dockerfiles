@@ -77,4 +77,4 @@ ENTRYPOINT ["sock-worker.sh"]
 
 # param 1: script, python script for real processing
 # param 2: gpu id
-# CMD fifo-worker.sh start_huntting.py 1
+# CMD start_huntting.py 1
