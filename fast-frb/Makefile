@@ -23,5 +23,3 @@ run-sock:
 		docker run -d --network=host --rm --gpus device=$$i -v ${PWD}/data:/data -v ${PWD}/bin:/app/bin \
 			 fast/heimdall start_huntting.py $$i; \
 	done
-
-# cat ../list.txt | while read line; do echo $line >> fifo; done
