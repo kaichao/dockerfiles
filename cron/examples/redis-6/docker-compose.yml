@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  redis-test:
+    build: .
+    environment:
+      - CRON_MINUTES=2
+      - REDIS_HOST=redis-server
+      - REDIS_PW=123456
+    container_name: cron-job-redis
+    privileged: true
+
+  redis-server:
+    image: redis:6
+    command: redis-server --requirepass 123456
+    # ports:
+    #   - "6379:6379"
+
+  redis-Insight:
+    image: redislabs/redisinsight:1.11.0
+    ports:
+      - "8001:8001"

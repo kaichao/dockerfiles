@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres-test:
+    build: .
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - PGPASSWORD=changeme
+      - CRON_MINUTES=60
+      - CRON_HOURS=2
+    container_name: cron-job-postgres
+    privileged: true
+
+  database:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
+    volumes:
+      - ${PWD}/initdb.d:/docker-entrypoint-initdb.d
+
+  dbadmin:
+    image: adminer:4.8.1
+    environment:
+      - ADMINER_DEFAULT_SERVER=database
+    ports:
+      - 8080:8080
+    depends_on:
+     - database

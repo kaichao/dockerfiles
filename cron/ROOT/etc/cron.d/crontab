@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+BASH_ENV=/container.env
+
+# solve crontab conflict
+*/CRON_MINUTES */CRON_HOURS * * */CRON_WEEKDAYS root flock -xn /var/lock/cron.sock -c 'cron-run.sh'
