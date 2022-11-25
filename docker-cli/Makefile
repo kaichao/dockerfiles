@@ -7,4 +7,5 @@ push:
 	docker push $(IMAGE_NAME)
 
 run:
-	docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock $(IMAGE_NAME) bash
+	# docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock $(IMAGE_NAME) bash
+	docker run -it --rm -v ${PWD}:/src -w /src -v /var/run/docker.sock:/var/run/docker.sock $(IMAGE_NAME) bash
