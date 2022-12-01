@@ -10,7 +10,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV TRANSPORT_TYPE=rsync \
-    RSYNC_PORT=873
+    RSYNC_PORT=873 \
+    SSH_PORT=2222 \
+    ENABLE_LOCAL_RELAY=
 
 COPY rootfs/ /
 
