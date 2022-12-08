@@ -1,4 +1,7 @@
 # rsyncd
+- Mount the root directory of the host to the /data of the container
+- The following directories on the host are not allowed to be accessed by rsyncd in the container
+    /bin/ /boot/ /dev/ /etc/ /proc/ /run/ /sys/ /var/ /usr/
 
 ## native rsyncd
 ```sh
