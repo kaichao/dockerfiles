@@ -2,9 +2,10 @@ FROM debian:11-slim
 
 LABEL maintainer="kaichao"
 
-# install rsync
-RUN apt-get update \
-    && apt-get install -y rsync openssh-client \
+# install the newest version, rsync 3.2.6, zstd 1.5.2
+RUN echo "deb http://deb.debian.org/debian testing main" > /etc/apt/sources.list.d/bullseye-testing.list \ 
+    && apt-get update \
+    && apt-get install -y rsync openssh-client zstd \
     && apt-get clean autoclean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
