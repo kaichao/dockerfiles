@@ -7,4 +7,5 @@ push:
 	docker push $(IMAGE_NAME)
 
 run:
-	docker run -it --network host --rm --privileged -v /:/local -e FTP_URL=$${FTP_URL} $(IMAGE_NAME) bash
+	docker run -it --network host --rm --privileged -v /:/local \
+		-e REMOTE_URL=$${REMOTE_URL} $(IMAGE_NAME) bash

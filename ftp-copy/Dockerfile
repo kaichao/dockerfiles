@@ -6,10 +6,11 @@ RUN echo "deb http://deb.debian.org/debian testing main" > /etc/apt/sources.list
     && apt-get clean autoclean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN mkdir /remote
 
-ENV FTP_URL= \
+ENV REMOTE_URL= \
     LOCAL_ROOT=/ \
-    REMOTE_ROOT=/ \
+    NUM_PGET_CONN=4 \
     ACTION=PUSH
 
 COPY *.sh /app/bin/

@@ -7,10 +7,11 @@ In this container image, curlftpfs is used to mount ftp-server as a local file s
 
 | parameter name   | Description  |
 |  ----  | ----  |
-| FTP_URL  | The format of FTP_URL is ftp://{user}:{pass}@{host}:{port} |
-| LOCAL_ROOT  | The root directory for local file storage, the default value is '/' |
-| REMOTE_ROOT | The root directory of the ftp server, the default value is '/' |
-| ACTION  | The direction of file copying, 'PUSH': local->ftp server; 'PULL': ftp server->local. The default is 'PUSH' |
+| REMOTE_URL  | The format of REMOTE_URL is ftp://{user}:{pass}@{host}:{port}/{path} |
+| LOCAL_ROOT  | The root directory for local file storage, default value is '/' |
+| NUM_PGET_CONN  | Maximum number of connections to get the specified file using several connections, default value is 4 |
+| ACTION  | The direction of file copying, 'PUSH': local->ftp server; 'PULL': ftp server->local; default value is 'PUSH' |
+
 
 ## usage
 
