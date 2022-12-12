@@ -8,3 +8,9 @@ if [[ $REMOTE_URL =~ (ftp://([^:]+:[^@]+@)?[^/:]+(:[^/]+)?)(/.*) ]]; then
 else
     echo "REMOTE_URL did not match regex!" >&2
 fi
+
+if [[ $RAM_DISK_GB != '' ]]; then 
+    mount -t tmpfs -o size=${RAM_DISK_GB}G,mode=0777 tmpfs /work
+    code=$?
+    echo "create_tmpfs,ret_code="$code
+fi
