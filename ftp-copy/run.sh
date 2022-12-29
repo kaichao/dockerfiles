@@ -33,9 +33,12 @@ fi
 
 if [[ $ACTION == 'PUSH' ]]; then
     # curlftpfs mounted /remote
-    cmd="mkdir -p /remote${remote_dir}"
-    eval $cmd; code=$?
-    [[ $code -ne 0 ]] && echo cmd:$cmd, error_code:$code && exit $code
+    if [ ! -d "/remote${remote_dir}" ]; then
+        cmd="mkdir -p /remote${remote_dir}"
+        eval $cmd; code=$?
+        # skip random mkdir error
+        # [[ $code -ne 0 ]] && echo cmd:$cmd, error_code:$code && exit $code
+    fi
 
     if [[ $ENABLE_LOCAL_RELAY == 'yes' ]]; then
         cmd="cp $local_dir/$filename /work"
@@ -49,6 +52,12 @@ if [[ $ACTION == 'PUSH' ]]; then
         rm -f /work/$filename
     fi
     [[ $code -ne 0 ]] && echo cmd:$cmd, error_code:$code && exit $code
+
+    if [[ $ENABLE_RECHECK_SIZE == 'yes' ]]; then
+        local_size=$(stat --printf="%s" ${local_dir}/$filename)
+        remote_size=$(stat --printf="%s" /remote${remote_dir}/$filename)
+        [[ $local_size -ne $remote_size ]] && echo inconsistent file size, local_size:$local_size, remote_size:$remote_size, error_code:3 && exit 3
+    fi
 elif [[ $ACTION == 'PULL' ]]; then
     # PULL
     cmd="mkdir -p ${local_dir}"
@@ -63,10 +72,19 @@ elif [[ $ACTION == 'PULL' ]]; then
     if [[ $ENABLE_LOCAL_RELAY == 'yes' ]]; then
         mv /work/$filename $local_dir
     fi
+
+    if [[ $ENABLE_RECHECK_SIZE == 'yes' ]]; then
+        local_size=$(stat --printf="%s" ${local_dir}/$filename)
+        remote_size=$(stat --printf="%s" /remote${remote_dir}/$filename)
+        [[ $local_size -ne $remote_size ]] && echo inconsistent file size, local_size:$local_size, remote_size:$remote_size, error_code:3 && exit 3
+    fi
 elif [[ $ACTION == 'PUSH_RECHECK' ]]; then
-    cmd="mkdir -p /remote${remote_dir}"
-    eval $cmd; code=$?
-    [[ $code -ne 0 ]] && echo cmd:$cmd, error_code:$code && exit $code
+    if [ ! -d "/remote${remote_dir}" ]; then
+        cmd="mkdir -p /remote${remote_dir}"
+        eval $cmd; code=$?
+        # skip random mkdir error
+        # [[ $code -ne 0 ]] && echo cmd:$cmd, error_code:$code && exit $code
+    fi
 
     # $ENABLE_LOCAL_RELAY == 'yes'
     cmd="cp $local_dir/$filename /work"
